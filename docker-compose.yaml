@@ -40,17 +40,5 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
 
-  telegram-bot:
-    build: ./telegram-bot-server    # دایرکتوری Node.js بات
-    container_name: telegram-bot
-    restart: always
-    environment:
-      BOT_TOKEN: "8492644202:AAFpgf8wZZpPMXFNK1bRSJ-WFWx4u-DhHOE"  # حتما تو اینجا توکن بات رو بزار
-    depends_on:
-      - backend
-    # اگر لازم بود پورت expose، می‌توان اضافه کرد (مثلا برای webhook)
-    # ports:
-    #   - "3001:3000"
-
 volumes:
   pg_data:
