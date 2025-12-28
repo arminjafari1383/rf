@@ -1,0 +1,56 @@
+version: "3.9"
+
+services:
+
+  backend:
+    build: ./backend
+    container_name: django-backend
+    volumes:
+      - ./backend:/backend
+    expose:
+      - "8000"
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    container_name: react-frontend
+    restart: always
+    # بدون volumes و command، Dockerfile خروجی را می‌سازد
+
+  nginx:
+    build: ./front
+    container_name: nginx-server
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - frontend
+      - backend
+
+  db:
+    image: postgres:16
+    container_name: postgres-db
+    restart: always
+    environment:
+      POSTGRES_DB: mydb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+  telegram-bot:
+    build: ./telegram-bot-server    # دایرکتوری Node.js بات
+    container_name: telegram-bot
+    restart: always
+    environment:
+      BOT_TOKEN: "8492644202:AAFpgf8wZZpPMXFNK1bRSJ-WFWx4u-DhHOE"  # حتما تو اینجا توکن بات رو بزار
+    depends_on:
+      - backend
+    # اگر لازم بود پورت expose، می‌توان اضافه کرد (مثلا برای webhook)
+    # ports:
+    #   - "3001:3000"
+
+volumes:
+  pg_data:
