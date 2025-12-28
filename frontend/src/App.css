@@ -1,0 +1,142 @@
+.App {
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.App-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  padding: 20px;
+}
+
+h1 {
+  margin-bottom: 40px;
+  font-size: 2.5rem;
+}
+
+.connect-button, .disconnect-button, .copy-button {
+  background: white;
+  color: #764ba2;
+  border: none;
+  padding: 12px 30px;
+  margin: 10px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.connect-button:hover, .copy-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.disconnect-button {
+  background: #ff4757;
+  color: white;
+}
+
+.wallet-connected {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 30px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.referral-section {
+  margin: 30px 0;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+}
+
+.referral-code {
+  display: block;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  margin: 15px 0;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+}
+
+.link-container {
+  display: flex;
+  margin: 15px 0;
+}
+
+.link-input {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 10px 0 0 10px;
+  font-size: 1rem;
+}
+
+.copy-button {
+  border-radius: 0 10px 10px 0;
+}
+
+.instruction {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-top: 20px;
+}
+
+.message {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+/* استایل بخش آمار رفرال */
+.referral-stats {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  min-width: 150px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 10px 0;
+  color: #4CAF50;
+  text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-top: 5px;
+}
+
+/* استایل‌های اضافی */
+.network-button, .sign-button {
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: transform 0.2s;
+}
+
+.network-button:hover, .sign-button:hover {
+  transform: translateY(-2px);
+}
