@@ -2,33 +2,24 @@
 FROM node:18 AS build
 WORKDIR /app
 
-# کپی package files
 COPY package*.json ./
-
-# نصب وابستگی‌ها
 RUN npm install
 
-# کپی تمام کدهای پروژه
 COPY . .
 
-# ساخت پروژه
+# اول build را انجام بده
 RUN npm run build
+
+# سپس محتوای پوشه app را بعد از build ببین
+RUN ls -la /app
 
 # مرحله ۲: اجرا با Nginx
 FROM nginx:1.25-alpine
 
-# حذف فایل‌های پیش‌فرض
 RUN rm -rf /usr/share/nginx/html/*
 
-# فقط یک خط COPY - پوشه درست را انتخاب کن:
-# اگر پروژه Vue/Angular (dist):
-COPY --from=build /app/dist /usr/share/nginx/html
+# سعی کن اول dist را کپی کنی، اگر نشد build را امتحان کن
+COPY --from=build /app/build /usr/share/nginx/html
 
-# یا اگر پروژه React (build):
-# COPY --from=build /app/build /usr/share/nginx/html
-
-# پورت
 EXPOSE 80
-
-# اجرای Nginx
 CMD ["nginx", "-g", "daemon off;"]
