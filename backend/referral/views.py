@@ -8,6 +8,9 @@ from django.db import models
 from django.utils import timezone
 from .models import WalletUser, Referral, Staking, TokenReward
 
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
 @api_view(['POST'])
 def save_wallet(request):
     """ذخیره آدرس کیف پول و ثبت رفرال"""
@@ -57,6 +60,7 @@ def save_wallet(request):
     
     return Response(response_data)
 
+@csrf_exempt
 @api_view(['POST'])
 def process_staking(request):
     """پردازش استیکینگ جدید"""
@@ -140,6 +144,8 @@ def process_staking(request):
     except Exception as e:
         return Response({'error': str(e)}, status=400)
 
+
+@csrf_exempt
 @api_view(['POST'])
 def unlock_staking(request, staking_id):
     """آزادسازی استیکینگ بعد از 365 روز"""
@@ -184,6 +190,8 @@ def unlock_staking(request, staking_id):
     except Staking.DoesNotExist:
         return Response({'error': 'استیکینگ پیدا نشد'}, status=404)
 
+
+@csrf_exempt
 @api_view(['GET'])
 def get_user_stakings(request, wallet_address):
     """دریافت لیست استیکینگ‌های کاربر"""
@@ -216,6 +224,8 @@ def get_user_stakings(request, wallet_address):
         'stakings': staking_list
     })
 
+
+@csrf_exempt
 @api_view(['GET'])
 def get_user_stats(request, wallet_address):
     """دریافت آمار کامل کاربر"""
