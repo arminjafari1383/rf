@@ -19,7 +19,7 @@ services:
     # بدون volumes و command، Dockerfile خروجی را می‌سازد
 
   nginx:
-    build: ./front
+    build: ./frontend
     container_name: nginx-server
     ports:
       - "80:80"
