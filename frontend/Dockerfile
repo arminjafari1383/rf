@@ -1,31 +1,34 @@
-# مرحله ۱: ساخت پروژه (Build Stage)
+# مرحله ۱: ساخت پروژه
 FROM node:18 AS build
 WORKDIR /app
 
-# نصب وابستگی‌ها
+# کپی package files
 COPY package*.json ./
+
+# نصب وابستگی‌ها
 RUN npm install
 
-# اضافه کردن کد پروژه
+# کپی تمام کدهای پروژه
 COPY . .
 
-# ساخت خروجی نهایی
+# ساخت پروژه
 RUN npm run build
 
-# مرحله ۲: سرو خروجی با Nginx (Production Serve)
-FROM nginx:1.25
+# مرحله ۲: اجرا با Nginx
+FROM nginx:1.25-alpine
 
-# پاک‌سازی کانفیگ پیش‌فرض Nginx
+# حذف فایل‌های پیش‌فرض
 RUN rm -rf /usr/share/nginx/html/*
 
-# کپی کردن خروجی build به مسیر Nginx
+# فقط یک خط COPY - پوشه درست را انتخاب کن:
+# اگر پروژه Vue/Angular (dist):
 COPY --from=build /app/dist /usr/share/nginx/html
-# برای React معمولاً پوشه build است:
+
+# یا اگر پروژه React (build):
 # COPY --from=build /app/build /usr/share/nginx/html
 
-# قرار دادن فایل کانفیگ اختصاصی (اختیاری)
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
-
+# پورت
 EXPOSE 80
 
+# اجرای Nginx
 CMD ["nginx", "-g", "daemon off;"]
