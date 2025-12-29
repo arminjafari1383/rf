@@ -28,6 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     'cryptoocapitalhub.com',
     'www.cryptoocapitalhub.com',
+    'localhost',
 ]
 
 
