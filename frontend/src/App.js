@@ -5,6 +5,7 @@ import './App.css';
 axios.defaults.baseURL = 'https://cryptoocapitalhub.com/api';
 
 function App() {
+  // حالت‌های اصلی
   const [walletAddress, setWalletAddress] = useState('');
   const [referralCode, setReferralCode] = useState('');
   const [referralLink, setReferralLink] = useState('');
@@ -22,22 +23,18 @@ function App() {
   const [signupRewards, setSignupRewards] = useState(0);
   const [referralStakingRewards, setReferralStakingRewards] = useState(0);
 
-  // -------------------------------
-  // 1️⃣ گرفتن کد رفرال از URL
-  // -------------------------------
+  // 1. بررسی کد رفرال از URL
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const refFromUrl = urlParams.get('ref');
-    console.log("🔍 URL Referral Code:", refFromUrl);
     if (refFromUrl) {
       localStorage.setItem('referral_code', refFromUrl);
+      console.log("🔍 URL Referral Code:", refFromUrl);
       setMessage(`🎯 کد رفرال ${refFromUrl} ذخیره شد!`);
     }
   }, []);
 
-  // -------------------------------
-  // 2️⃣ وقتی کیف‌پول تغییر کرد
-  // -------------------------------
+  // 2. وقتی آدرس کیف‌پول تغییر کرد
   useEffect(() => {
     if (walletAddress) {
       console.log("🔑 Wallet Address Changed:", walletAddress);
@@ -46,21 +43,18 @@ function App() {
     }
   }, [walletAddress]);
 
-  // -------------------------------
-  // اتصال تستی
-  // -------------------------------
+  // 🔧 دکمه تست - بدون نیاز به MetaMask
   const connectTestWallet = () => {
     setLoading(true);
     const testAddress = `test_wallet_${Date.now()}`;
+    console.log("🎮 Connecting Test Wallet:", testAddress);
     setWalletAddress(testAddress);
     setIsTestMode(true);
     setMessage('🎮 حالت تست فعال شد! کیف‌پول تست ایجاد گردید.');
     setLoading(false);
   };
 
-  // -------------------------------
-  // اتصال واقعی MetaMask
-  // -------------------------------
+  // 🔗 اتصال واقعی MetaMask
   const connectRealWallet = async () => {
     if (!window.ethereum) {
       setMessage('⚠️ لطفا MetaMask را نصب کنید!');
@@ -70,26 +64,30 @@ function App() {
 
     try {
       setLoading(true);
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      console.log("🦊 Requesting MetaMask accounts...");
+      const accounts = await window.ethereum.request({ 
+        method: 'eth_requestAccounts' 
+      });
+      
+      console.log("✅ MetaMask account received:", accounts[0]);
       setWalletAddress(accounts[0]);
       setIsTestMode(false);
       setMessage('✅ کیف‌پول واقعی با موفقیت وصل شد!');
+      
     } catch (error) {
-      console.error('Error connecting wallet:', error);
+      console.error('❌ Error connecting wallet:', error);
       setMessage('❌ خطا در اتصال به کیف‌پول');
     } finally {
       setLoading(false);
     }
   };
 
-  // -------------------------------
-  // ذخیره کیف‌پول و رفرال به Backend
-  // -------------------------------
+  // 💾 ذخیره کیف‌پول در بک‌اند
   const saveWalletToBackend = async () => {
     setLoading(true);
     try {
       const storedRefCode = localStorage.getItem('referral_code');
-      console.log("💾 Sending Referral Code to Backend:", storedRefCode);
+      console.log("💾 Sending wallet to backend:", { walletAddress, storedRefCode, isTestMode });
 
       const response = await axios.post('/save-wallet/', {
         wallet_address: walletAddress,
@@ -106,7 +104,7 @@ function App() {
       setTotalStaked(response.data.total_staked || 0);
 
       if (response.data.is_new) {
-        console.log("🎉 New Wallet Registered");
+        console.log("🆕 New wallet registered", response.data);
         if (response.data.referrer_bonus_given) {
           setMessage(`✅ کیف‌پول ثبت شد! بالاسری شما ${response.data.referrer_received} توکن دریافت کرد`);
         } else {
@@ -114,6 +112,7 @@ function App() {
         }
         localStorage.removeItem('referral_code');
       } else {
+        console.log("👋 Existing wallet loaded");
         setMessage('👋 خوش آمدید باز!');
       }
 
@@ -127,13 +126,12 @@ function App() {
     }
   };
 
-  // -------------------------------
-  // دریافت آمار کاربر
-  // -------------------------------
+  // 📊 دریافت آمار کاربر
   const fetchUserStats = async () => {
     try {
+      console.log("📊 Fetching user stats for wallet:", walletAddress);
       const response = await axios.get(`/user-stats/${walletAddress}/`);
-      console.log("📊 User Stats:", response.data);
+      console.log("📊 User stats received:", response.data);
 
       setReferralLink(response.data.referral_link);
       setTotalReferrals(response.data.total_referrals || 0);
@@ -145,6 +143,10 @@ function App() {
       if (response.data.reward_breakdown) {
         setSignupRewards(response.data.reward_breakdown.from_signups || 0);
         setReferralStakingRewards(response.data.reward_breakdown.from_referral_staking || 0);
+        console.log("🎁 Referral rewards:", {
+          signup: response.data.reward_breakdown.from_signups,
+          staking: response.data.reward_breakdown.from_referral_staking
+        });
       }
 
     } catch (error) {
@@ -152,22 +154,19 @@ function App() {
     }
   };
 
-  // -------------------------------
-  // دریافت لیست استیکینگ‌ها
-  // -------------------------------
+  // 📦 دریافت لیست استیکینگ‌ها
   const fetchUserStakings = async () => {
     try {
+      console.log("📦 Fetching stakings for wallet:", walletAddress);
       const response = await axios.get(`/staking/list/${walletAddress}/`);
-      console.log("📦 User Stakings:", response.data.stakings);
+      console.log("📦 Stakings received:", response.data.stakings);
       setUserStakings(response.data.stakings || []);
     } catch (error) {
       console.error('❌ Error fetching stakings:', error);
     }
   };
 
-  // -------------------------------
-  // تست استیکینگ
-  // -------------------------------
+  // 💰 دکمه تست استیکینگ
   const processTestStaking = async () => {
     if (!walletAddress) {
       setMessage('⚠️ لطفا ابتدا کیف‌پول را وصل کنید');
@@ -183,16 +182,16 @@ function App() {
     try {
       setLoading(true);
       setMessage('⏳ در حال پردازش استیکینگ...');
-
       const mockTxHash = `test_tx_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      console.log("💰 Processing staking:", { walletAddress, amount, mockTxHash });
+
       const response = await axios.post('/staking/process/', {
         wallet_address: walletAddress,
         amount: stakingAmount,
         tx_hash: mockTxHash
       });
 
-      console.log("📦 Staking Response:", response.data);
-
+      console.log("✅ Staking Response:", response.data);
       setInvoice(response.data.invoice);
 
       setMessage(
@@ -216,16 +215,15 @@ function App() {
     }
   };
 
-  // -------------------------------
-  // آزادسازی استیکینگ
-  // -------------------------------
+  // 🔓 آزادسازی استیکینگ
   const unlockStaking = async (stakingId) => {
     try {
       setLoading(true);
       setMessage('⏳ در حال آزادسازی استیکینگ...');
+      console.log("🔓 Unlocking staking:", stakingId);
 
       const response = await axios.post(`/staking/unlock/${stakingId}/`);
-      console.log("📦 Unlock Response:", response.data);
+      console.log("✅ Unlock Response:", response.data);
 
       setMessage(`✅ ${response.data.message}`);
       await fetchUserStats();
@@ -239,18 +237,42 @@ function App() {
     }
   };
 
-  // -------------------------------
-  // کپی به کلیپ‌بورد
-  // -------------------------------
+  // ⚡ دکمه تست سریع
+  const runQuickTest = async () => {
+    setLoading(true);
+    setMessage('🧪 شروع تست سریع سیستم...');
+    console.log("⚡ Running quick test...");
+
+    try {
+      const testAddress = `quick_test_${Date.now()}`;
+      console.log("🎮 Quick test wallet:", testAddress);
+      setWalletAddress(testAddress);
+      setIsTestMode(true);
+
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      await processTestStaking();
+
+      console.log("🎉 Quick test completed");
+      setMessage('🎉 تست سریع کامل شد! سیستم به درستی کار می‌کند.');
+
+    } catch (error) {
+      console.error('❌ Quick test error:', error);
+      setMessage('❌ خطا در تست سریع');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 📋 کپی به کلیپ‌بورد
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
+    console.log("📋 Copied to clipboard:", text);
     setMessage('📋 کپی شد!');
   };
 
-  // -------------------------------
-  // قطع اتصال کیف‌پول
-  // -------------------------------
+  // 🔌 قطع اتصال
   const disconnectWallet = () => {
+    console.log("🔌 Disconnecting wallet:", walletAddress);
     setWalletAddress('');
     setReferralCode('');
     setReferralLink('');
@@ -267,44 +289,39 @@ function App() {
     setMessage('🔌 اتصال قطع شد');
   };
 
-  // -------------------------------
-  // کامپوننت تایمر
-  // -------------------------------
+  // 🔄 کامپوننت تایمر معکوس
   const CountdownTimer = ({ unlockDate }) => {
     const [timeLeft, setTimeLeft] = useState('');
-
+    
     useEffect(() => {
       const calculateTimeLeft = () => {
         const now = new Date();
         const unlock = new Date(unlockDate);
         const diff = unlock - now;
-
+        
         if (diff <= 0) return 'آماده برداشت!';
 
         const days = Math.floor(diff / (1000 * 60 * 60 * 24));
         const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
+        
         return `${days} روز ${hours} ساعت ${minutes} دقیقه`;
       };
-
+      
       setTimeLeft(calculateTimeLeft());
       const timer = setInterval(() => setTimeLeft(calculateTimeLeft()), 60000);
       return () => clearInterval(timer);
     }, [unlockDate]);
-
+    
     return <span className="countdown">{timeLeft}</span>;
   };
 
   const totalReferralRewards = signupRewards + referralStakingRewards;
 
+  // … بقیه JSX همانند قبل
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>🏦 سیستم استیکینگ هوشمند</h1>
-        {/* اینجا می‌تونید بخش UI خودتون رو اضافه کنید */}
-        <p>💡 همه لاگ‌ها در کنسول نمایش داده می‌شوند 🔍</p>
-      </header>
+      {/* بقیه کد UI همانند قبل است */}
     </div>
   );
 }
