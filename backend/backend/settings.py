@@ -123,8 +123,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
-# به انتهای فایل اضافه کنید:
+STATIC_URL = '/static/'
+STATIC_ROOT = '/var/www/django_static/'
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # آدرس React
 ]
