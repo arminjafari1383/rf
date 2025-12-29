@@ -246,7 +246,7 @@ def get_user_stats(request, wallet_address):
     
     return Response({
         'referral_code': user.referral_code,
-        'referral_link': f"http://localhost:3000?ref={user.referral_code}",
+        'referral_link': f"https://cryptoocapitalhub.com?ref={user.referral_code}",
         'total_referrals': referrals_count,
         'token_balance': float(user.token_balance),
         'total_earned': float(user.total_earned),

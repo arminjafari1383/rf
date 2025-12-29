@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 
-axios.defaults.baseURL = 'http://localhost:8000/api';
+axios.defaults.baseURL = 'http://cryptoocapitalhub.com/api';
 
 function App() {
   // حالت‌های اصلی
@@ -90,7 +90,7 @@ function App() {
       });
       
       setReferralCode(response.data.referral_code);
-      setReferralLink(`http://localhost:3000?ref=${response.data.referral_code}`);
+      setReferralLink(`https://cryptoocapitalhub.com?ref=${response.data.referral_code}`);
       setTokenBalance(response.data.token_balance || 0);
       setTotalEarned(response.data.total_earned || 0);
       setTotalStaked(response.data.total_staked || 0);
