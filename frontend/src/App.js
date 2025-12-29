@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 
-axios.defaults.baseURL = 'http://cryptoocapitalhub.com/api';
+axios.defaults.baseURL = 'https://cryptoocapitalhub.com/api';
 
 function App() {
   // حالت‌های اصلی
