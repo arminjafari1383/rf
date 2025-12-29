@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-7#f(kb$e=$e4+v1$3=+z&+kkmb57xo%&je2aj3i@=y$61ut+i&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'cryptoocapitalhub.com',
+    'www.cryptoocapitalhub.com',
+]
+
 
 
 # Application definition
