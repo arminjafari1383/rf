@@ -141,7 +141,7 @@ function App() {
   // 📦 دریافت لیست استیکینگ‌ها
   const fetchUserStakings = async () => {
     try {
-      const response = await axios.get(`/staking/list/${walletAddress}/`);
+      const response = await axios.get(`/api/staking/list/${walletAddress}/`);
       setUserStakings(response.data.stakings || []);
     } catch (error) {
       console.error('Error fetching stakings:', error);
