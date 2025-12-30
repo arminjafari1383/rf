@@ -83,7 +83,7 @@ function App() {
     try {
       const storedRefCode = localStorage.getItem('referral_code');
       
-      const response = await axios.post('/save-wallet/', {
+      const response = await axios.post('/api/save-wallet/', {
         wallet_address: walletAddress,
         referral_code: storedRefCode,
         wallet_type: isTestMode ? 'test' : 'ethereum'
