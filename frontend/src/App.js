@@ -119,7 +119,7 @@ function App() {
   // 📊 دریافت آمار کاربر
   const fetchUserStats = async () => {
     try {
-      const response = await axios.get(`/user-stats/${walletAddress}/`);
+      const response = await axios.get(`/api/user-stats/${walletAddress}/`);
       setReferralLink(response.data.referral_link);
       setTotalReferrals(response.data.total_referrals || 0);
       setTokenBalance(response.data.token_balance || 0);
