@@ -519,7 +519,7 @@ function App() {
                     <div className="stat-note">
                       هر نفر = <strong>3 توکن</strong>
                     </div>
-                  </div>
+                  </div><br/>
                   
                   <div className="stat-card">
                     <span className="stat-label">💰 پاداش ثبت‌نام</span>

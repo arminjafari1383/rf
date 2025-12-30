@@ -1,3 +1,4 @@
+/* -------------------- استایل کلی -------------------- */
 .App {
   text-align: center;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -19,6 +20,7 @@ h1 {
   font-size: 2.5rem;
 }
 
+/* -------------------- دکمه‌ها -------------------- */
 .connect-button, .disconnect-button, .copy-button {
   background: white;
   color: #764ba2;
@@ -42,6 +44,19 @@ h1 {
   color: white;
 }
 
+.network-button, .sign-button {
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: transform 0.2s;
+}
+
+.network-button:hover, .sign-button:hover {
+  transform: translateY(-2px);
+}
+
+/* -------------------- بخش کیف‌پول -------------------- */
 .wallet-connected {
   background: rgba(255, 255, 255, 0.1);
   padding: 30px;
@@ -50,6 +65,7 @@ h1 {
   max-width: 600px;
 }
 
+/* -------------------- بخش رفرال -------------------- */
 .referral-section {
   margin: 30px 0;
   padding: 20px;
@@ -90,6 +106,7 @@ h1 {
   margin-top: 20px;
 }
 
+/* -------------------- پیام‌ها -------------------- */
 .message {
   margin-top: 20px;
   padding: 10px 20px;
@@ -97,10 +114,12 @@ h1 {
   border-radius: 10px;
 }
 
-/* استایل بخش آمار رفرال */
+/* -------------------- استایل بخش آمار رفرال - زیر هم -------------------- */
 .referral-stats {
   display: flex;
-  justify-content: center;
+  flex-direction: column; /* کارت‌ها زیر هم */
+  align-items: center;
+  gap: 15px; /* فاصله بین کارت‌ها */
   margin-bottom: 20px;
 }
 
@@ -109,7 +128,9 @@ h1 {
   padding: 20px;
   border-radius: 15px;
   text-align: center;
-  min-width: 150px;
+  min-width: 200px;
+  max-width: 400px;
+  width: 100%;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -128,15 +149,131 @@ h1 {
   margin-top: 5px;
 }
 
-/* استایل‌های اضافی */
-.network-button, .sign-button {
-  padding: 8px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: transform 0.2s;
+/* -------------------- بخش استیکینگ -------------------- */
+.staking-section {
+  margin: 30px 0;
 }
 
-.network-button:hover, .sign-button:hover {
+.staking-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.staking-input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-size: 1rem;
+}
+
+.staking-button {
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.staking-button:hover {
   transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.staking-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.info-card {
+  background: rgba(0,0,0,0.2);
+  padding: 15px;
+  border-radius: 10px;
+}
+
+/* -------------------- فاکتور استیکینگ -------------------- */
+.invoice-section {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 20px;
+  border-radius: 15px;
+  margin: 20px 0;
+}
+
+.invoice-details {
+  text-align: left;
+}
+
+.invoice-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+}
+
+.tx-hash {
+  background: rgba(0,0,0,0.2);
+  padding: 2px 5px;
+  border-radius: 5px;
+}
+
+/* -------------------- لیست استیکینگ‌ها -------------------- */
+.stakings-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.staking-card {
+  background: rgba(255,255,255,0.15);
+  padding: 15px;
+  border-radius: 10px;
+  text-align: left;
+}
+
+.staking-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+}
+
+.unlock-button {
+  margin-top: 10px;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 10px;
+  background: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+
+.countdown {
+  font-weight: bold;
+}
+
+/* -------------------- ریسپانسیو -------------------- */
+@media (min-width: 768px) {
+  .referral-stats {
+    flex-direction: row; /* روی دسکتاپ کنار هم */
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .stat-card {
+    flex: 1 1 180px;
+    max-width: 200px;
+  }
+  
+  .staking-form {
+    flex-direction: row;
+  }
 }
