@@ -167,7 +167,7 @@ function App() {
       
       const mockTxHash = `test_tx_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
       
-      const response = await axios.post('/staking/process/', {
+      const response = await axios.post('/api/staking/process/', {
         wallet_address: walletAddress,
         amount: stakingAmount,
         tx_hash: mockTxHash
